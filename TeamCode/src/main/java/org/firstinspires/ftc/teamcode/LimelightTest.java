@@ -16,6 +16,8 @@ public class LimelightTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         waitForStart();
+        limelight.pipelineSwitch(1);
+        limelight.start();
         while (opModeIsActive()) {
             LLResult limelightResult = limelight.getLatestResult();
             if (limelightResult.isValid()) {
