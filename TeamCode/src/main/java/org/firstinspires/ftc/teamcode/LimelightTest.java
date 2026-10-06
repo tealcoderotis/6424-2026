@@ -26,8 +26,8 @@ public class LimelightTest extends LinearOpMode {
                 telemetry.clearAll();
                 List<LLResultTypes.ColorResult> colorResults = limelightResult.getColorResults();
                 for (LLResultTypes.ColorResult result : colorResults) {
-                    Pose3D targetPose = result.getRobotPoseFieldSpace();
-                    telemetry.addLine("Target " + colorResults.indexOf(result));
+                    Pose3D targetPose = result.getCameraPoseTargetSpace();
+                    telemetry.addLine("Target " + colorResults.indexOf(result) + "\tArea: " + result.getTargetArea());
                     telemetry.addLine("Target\tx: " + targetPose.getPosition().x + "\ty: " + targetPose.getPosition().y);
                     telemetry.addLine("Distance:" + TargetPose.GetGamePieceDistance(result));
                     telemetry.addLine("Pose: " + TargetPose.GetGamePiecePositionFieldSpace(new Pose(0, 0), result));
