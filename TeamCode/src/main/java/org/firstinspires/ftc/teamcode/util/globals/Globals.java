@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.util.globals;
 import com.pedropathing.math.Pose;
 
 public class Globals {
-    private static Alliance alliance = Alliance.UNKOWN;
+    private static Alliance alliance = Alliance.UNKNOWN;
     private static Pose pose = null;
 
     public static Alliance getAlliance() {
@@ -23,7 +23,7 @@ public class Globals {
     }
 
     public static void resetGlobals() {
-        alliance = Alliance.UNKOWN;
+        alliance = Alliance.UNKNOWN;
         pose = null;
     }
 }

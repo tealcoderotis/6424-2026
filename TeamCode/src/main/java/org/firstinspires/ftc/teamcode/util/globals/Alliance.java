@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.util.globals;
 
 public enum Alliance {
-    UNKOWN,
+    UNKNOWN,
     RED,
-    Blue
+    BLUE
 }
