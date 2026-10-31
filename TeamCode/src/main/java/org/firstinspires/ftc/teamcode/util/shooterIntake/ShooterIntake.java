@@ -6,8 +6,12 @@ import com.pedropathing.ivy.behaviors.ConflictBehavior;
 import com.pedropathing.ivy.behaviors.EndCondition;
 import com.pedropathing.ivy.behaviors.InterruptedBehavior;
 import com.pedropathing.ivy.groups.Groups;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
@@ -15,19 +19,36 @@ import java.util.function.Consumer;
 public class ShooterIntake {
     private final String INTAKE_HARDWARE_MAP = "intake";
     private final String SHOOTER_HARDWARE_MAP = "shooter";
+    private final String ROLLER_LEFT_HARDWARE_MAP = "leftIntake";
+    private final String ROLLER_RIGHT_HARDWARE_MAP = "rightIntake";
     private final double SHOOTER_SHOOT_VELOCITY = 5000;
-    private final double INDEXER_SHOOT_VELOCITY = 500;
-    private final double INDEXER_INTAKE_VELOCITY = 500;
+    private final double INDEXER_SHOOT_POWER = 0.5;
+    private final double INDEXER_INTAKE_POWER = 1;
+    private final double ROLLER_LEFT_POWER = 1;
+    private final double ROLLER_RIGHT_POWER = 1;
     private final double VELOCITY_TOLERANCE = 250;
     private boolean isPrepared = false;
-    private DcMotorEx intakeMotor;
+    private DcMotor intakeMotor;
     private DcMotorEx shooterMotor;
+    private CRServo leftRoller;
+    private CRServo rightRoller;
     private int shootingTime = 0;
     private long startShootingTime;
 
     public ShooterIntake(HardwareMap hardwareMap) {
-        intakeMotor = hardwareMap.get(DcMotorEx.class, INTAKE_HARDWARE_MAP);
+        intakeMotor = hardwareMap.get(DcMotor.class, INTAKE_HARDWARE_MAP);
         shooterMotor = hardwareMap.get(DcMotorEx.class, SHOOTER_HARDWARE_MAP);
+        leftRoller = hardwareMap.get(CRServo.class, ROLLER_LEFT_HARDWARE_MAP);
+        rightRoller = hardwareMap.get(CRServo.class, ROLLER_RIGHT_HARDWARE_MAP);
+
+        shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
+
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftRoller.setPower(0);
+        rightRoller.setPower(0);
+        leftRoller.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public Command prepareShooting() {
@@ -95,7 +116,7 @@ public class ShooterIntake {
         public void run() {
             shootingTime = tempShootingTime;
             startShootingTime = System.currentTimeMillis();
-            intakeMotor.setVelocity(INDEXER_SHOOT_VELOCITY);
+            intakeMotor.setPower(INDEXER_SHOOT_POWER);
         }
     }
 
@@ -109,7 +130,7 @@ public class ShooterIntake {
         public void accept(EndCondition endCondition) {
             isPrepared = false;
             shooterMotor.setVelocity(0);
-            intakeMotor.setVelocity(0);
+            intakeMotor.setPower(0);
         }
     }
 
@@ -128,13 +149,17 @@ public class ShooterIntake {
 
     private class BeginIntaking implements Runnable {
         public void run() {
-            intakeMotor.setVelocity(INDEXER_INTAKE_VELOCITY);
+            intakeMotor.setPower(INDEXER_INTAKE_POWER);
+            leftRoller.setPower(ROLLER_LEFT_POWER);
+            rightRoller.setPower(ROLLER_RIGHT_POWER);
         }
     }
 
     private class StopIntaking implements Consumer<EndCondition> {
         public void accept(EndCondition endCondition) {
-            intakeMotor.setVelocity(0);
+            intakeMotor.setPower(0);
+            leftRoller.setPower(0);
+            rightRoller.setPower(0);
         }
     }
 }
