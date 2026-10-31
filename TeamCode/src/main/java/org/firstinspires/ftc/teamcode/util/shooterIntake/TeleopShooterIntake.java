@@ -14,6 +14,7 @@ public class TeleopShooterIntake
     private final String ROLLER_LEFT_HARDWARE_MAP = "leftIntake";
     private final String ROLLER_RIGHT_HARDWARE_MAP = "rightIntake";
     private final double SHOOTER_SHOOT_VELOCITY = 1250;
+    private final double SHOOTER_SHOOT_VELOCITY_INCREMENT = 20;
     private final double INDEXER_SHOOT_POWER = 0.5;
     private final double INDEXER_INTAKE_POWER = 1;
     private final double ROLLER_LEFT_POWER = 1;
@@ -22,6 +23,8 @@ public class TeleopShooterIntake
     private DcMotorEx shooterMotor;
     private CRServo leftRoller;
     private CRServo rightRoller;
+    private double shooterShootVelocity = SHOOTER_SHOOT_VELOCITY;
+    private boolean isLaunching = false;
 
     public TeleopShooterIntake(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotor.class, INTAKE_HARDWARE_MAP);
@@ -52,12 +55,32 @@ public class TeleopShooterIntake
     }
 
     public void shoot() {
-        shooterMotor.setVelocity(SHOOTER_SHOOT_VELOCITY);
+        shooterMotor.setVelocity(shooterShootVelocity);
         intakeMotor.setPower(INDEXER_SHOOT_POWER);
+    }
+
+    public void setShooterVelocity(double velocity) {
+        shooterShootVelocity = velocity;
+        if (isLaunching) shooterMotor.setVelocity(shooterShootVelocity);
+    }
+
+    public void incrementVelocity() {
+        shooterShootVelocity += SHOOTER_SHOOT_VELOCITY_INCREMENT;
+        if (isLaunching) shooterMotor.setVelocity(shooterShootVelocity);
+    }
+
+    public void decrementVelocity() {
+        shooterShootVelocity -= SHOOTER_SHOOT_VELOCITY;
+        if (isLaunching) shooterMotor.setVelocity(shooterShootVelocity);
+    }
+
+    public double getShooterTargetVelocity() {
+        return shooterShootVelocity;
     }
 
     public void stopShooting() {
         shooterMotor.setVelocity(0);
         intakeMotor.setPower(0);
+        isLaunching = false;
     }
 }
