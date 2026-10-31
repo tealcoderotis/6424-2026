@@ -110,8 +110,8 @@ public class teleOpTest extends OpMode {
 
     void mecanumDrive(double forward, double strafe, double rotate) {
         leftFrontPower = forward + strafe + rotate;
-        rightFrontPower = forward - strafe - rotate;
         leftBackPower = forward - strafe + rotate;
+        rightFrontPower = forward - strafe - rotate;
         rightBackPower = forward + strafe - rotate;
 
         /*double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
