@@ -14,6 +14,8 @@ public class FunctionsUsageExample extends OpMode {
 
     @Override
     public void init() {
+        manip.LAUNCHER_MIN_VELOCITY = 900;
+        manip.LAUNCHER_TARGET_VELOCITY = 1000;
         drive.driveIMUInit(hardwareMap);
         manip.manipulateInit(hardwareMap);
 
