@@ -30,7 +30,7 @@ public class ManipulateFunctions {
         rightIntake.setPower(0);
         leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-    public void manipulate(float right_trigger, float left_trigger, boolean right_bumper) {
+    public void manipulate(float right_trigger, float left_trigger, boolean right_bumper, boolean btnA) {
         double intakePower = right_trigger - left_trigger;
         if (right_bumper) {
             shooter.setVelocity(LAUNCHER_TARGET_VELOCITY);
@@ -39,6 +39,9 @@ public class ManipulateFunctions {
             }
         } else {
             shooter.setVelocity(0);
+        }
+        if (btnA) {
+            intakePower = 1;
         }
         intake.setPower(intakePower);
         leftIntake.setPower(intakePower);
