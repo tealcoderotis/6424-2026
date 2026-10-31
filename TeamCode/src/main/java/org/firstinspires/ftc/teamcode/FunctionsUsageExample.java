@@ -35,7 +35,7 @@ public class FunctionsUsageExample extends OpMode {
 
         drive.mecanumFieldDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, false);
 
-        manip.manipulate(gamepad1.right_trigger, gamepad1.left_trigger, gamepad1.right_bumper);
+        manip.manipulate(gamepad1.right_trigger, gamepad1.left_trigger, gamepad1.right_bumper, gamepad1.a);
 
         //telemetry.addData("Triggers", "left (%.2f, right (%.2f)",gamepad1.left_trigger, gamepad1.right_trigger);
     }
