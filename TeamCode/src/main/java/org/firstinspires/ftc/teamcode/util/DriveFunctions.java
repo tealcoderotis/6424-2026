@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.util;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -10,13 +12,24 @@ public class DriveFunctions {
     private DcMotor rightFrontDrive = null;
     private DcMotor leftBackDrive = null;
     private DcMotor rightBackDrive = null;
-    void driveInit(com.qualcomm.robotcore.hardware.HardwareMap hardwareMap) {
+    private IMU imu = null;
+    public void driveIMUInit(com.qualcomm.robotcore.hardware.HardwareMap hardwareMap) {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "rightBackDrive");
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setZeroPowerBehavior(BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(BRAKE);
+        leftBackDrive.setZeroPowerBehavior(BRAKE);
+        rightBackDrive.setZeroPowerBehavior(BRAKE);
+        imu = (IMU) hardwareMap.get("imu");
+        imu.resetYaw();
     }
-    void mecanumDrive(double forward, double strafe, double rotate){
+    private void mecanumDrive(double forward, double strafe, double rotate){
 
         double denominator = Math.max(Math.abs(forward) + Math.abs(strafe) + Math.abs(rotate), 1);
 
@@ -27,7 +40,7 @@ public class DriveFunctions {
 
     }
 
-    void mecanumFieldDrive(double forward, double strafe, double rotate, boolean fieldCentric, IMU imu) {
+    public void mecanumFieldDrive(double forward, double strafe, double rotate, boolean fieldCentric) {
         if (fieldCentric) {
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             double fieldStrafe = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
