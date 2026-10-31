@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.util.DriveFunctions;
 import org.firstinspires.ftc.teamcode.util.ManipulateFunctions;
 
-@TeleOp(name = "teleOpTest")
+@TeleOp(name = "FunctionsUsageExample")
 //@Disabled
 public class FunctionsUsageExample extends OpMode {
     DriveFunctions drive = new DriveFunctions();
