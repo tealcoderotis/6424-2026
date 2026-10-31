@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.util.ManipulateFunctions;
 public class FunctionsUsageExample extends OpMode {
     DriveFunctions drive = new DriveFunctions();
     ManipulateFunctions manip = new ManipulateFunctions();
+    boolean fieldCentric = false;
 
     @Override
     public void init() {
@@ -24,10 +25,24 @@ public class FunctionsUsageExample extends OpMode {
 
     @Override
     public void init_loop() {
+        telemetry.addLine("Press A to toggle fieldCentric");
+        telemetry.addLine("Press up and down to change launcher velocity");
+        if (gamepad1.aWasPressed()) {
+            fieldCentric = !fieldCentric;
+        }
+        telemetry.addData("fieldCentric: ", fieldCentric);
+        if (gamepad1.dpadDownWasPressed()) {
+            manip.LAUNCHER_TARGET_VELOCITY -= 20;
+        }
+        if (gamepad1.dpadUpWasPressed()) {
+            manip.LAUNCHER_TARGET_VELOCITY += 20;
+        }
+        telemetry.addData("Velocity: ", manip.LAUNCHER_TARGET_VELOCITY);
     }
 
     @Override
     public void start() {
+        manip.LAUNCHER_MIN_VELOCITY = manip.LAUNCHER_TARGET_VELOCITY - 100;
     }
 
     @Override
