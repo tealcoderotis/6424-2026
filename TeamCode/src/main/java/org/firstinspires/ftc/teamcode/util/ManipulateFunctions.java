@@ -13,6 +13,7 @@ public class ManipulateFunctions {
     private DcMotor intake = null;
     private CRServo leftIntake = null;
     private CRServo rightIntake = null;
+    private final double RPMtoVelocity = 0.46676;
     public double LAUNCHER_TARGET_VELOCITY = 1250; //2678 RPM
     public double LAUNCHER_MIN_VELOCITY = 1200; //2571 RPM
     public void manipulateInit(com.qualcomm.robotcore.hardware.HardwareMap hardwareMap) {
@@ -30,16 +31,15 @@ public class ManipulateFunctions {
         rightIntake.setPower(0);
         leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-    public void manipulate(float right_trigger, float left_trigger, boolean right_bumper, boolean btnA) {
-        double intakePower = right_trigger - left_trigger;
+    public void manipulate(boolean right_bumper, boolean btnA, org.firstinspires.ftc.robotcore.external.Telemetry telemetry) {
         if (right_bumper) {
-            shooter.setVelocity(LAUNCHER_TARGET_VELOCITY);
-            if (shooter.getVelocity() > LAUNCHER_MIN_VELOCITY) {
-                intakePower += 0.5;
-            }
+            shooter.setVelocity(LAUNCHER_TARGET_VELOCITY * RPMtoVelocity);
+            double trueVelocity = shooter.getVelocity();
+            telemetry.addData("True velocity: ", trueVelocity);
         } else {
             shooter.setVelocity(0);
         }
+        double intakePower = 0;
         if (btnA) {
             intakePower = 1;
         }
