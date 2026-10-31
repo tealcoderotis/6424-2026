@@ -16,12 +16,12 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
-public class ShooterIntake {
+public class AutonShooterIntake {
     private final String INTAKE_HARDWARE_MAP = "intake";
     private final String SHOOTER_HARDWARE_MAP = "shooter";
     private final String ROLLER_LEFT_HARDWARE_MAP = "leftIntake";
     private final String ROLLER_RIGHT_HARDWARE_MAP = "rightIntake";
-    private final double SHOOTER_SHOOT_VELOCITY = 5000;
+    private final double SHOOTER_SHOOT_VELOCITY = 1250;
     private final double INDEXER_SHOOT_POWER = 0.5;
     private final double INDEXER_INTAKE_POWER = 1;
     private final double ROLLER_LEFT_POWER = 1;
@@ -35,7 +35,7 @@ public class ShooterIntake {
     private int shootingTime = 0;
     private long startShootingTime;
 
-    public ShooterIntake(HardwareMap hardwareMap) {
+    public AutonShooterIntake(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotor.class, INTAKE_HARDWARE_MAP);
         shooterMotor = hardwareMap.get(DcMotorEx.class, SHOOTER_HARDWARE_MAP);
         leftRoller = hardwareMap.get(CRServo.class, ROLLER_LEFT_HARDWARE_MAP);
