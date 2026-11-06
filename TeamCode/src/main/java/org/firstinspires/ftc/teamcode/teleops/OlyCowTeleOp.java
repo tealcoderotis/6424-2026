@@ -20,7 +20,7 @@ public class OlyCowTeleOp extends OpMode {
     public void init() {
         drive.driveIMUInit(hardwareMap);
         manip.manipulateInit(hardwareMap);
-        LL.limelightInit(hardwareMap);
+        //LL.limelightInit(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
     }
@@ -59,15 +59,15 @@ public class OlyCowTeleOp extends OpMode {
 
     @Override
     public void start() {
-        LL.limelightStart();
+        //LL.limelightStart();
     }
 
     @Override
     public void loop() {
         telemetry.addLine("left bumper to intake, right bumper to rev up shooter, both to shoot");
         drive.Drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-        LL.updatePieceMap(Globals.getPose());
-        LL.alternateTracking();
+        /*LL.updatePieceMap(Globals.getPose());
+        LL.alternateTracking();*/
         manip.intake(gamepad1.left_bumper);
         manip.shoot(gamepad1.right_bumper, targetRPM, telemetry);
 
@@ -77,8 +77,8 @@ public class OlyCowTeleOp extends OpMode {
         if (gamepad1.dpadUpWasPressed()) {
             targetRPM += 20;
         }
-        Globals.writePose(telemetry);
-        Globals.follower.update();
+        /*Globals.writePose(telemetry);
+        //Globals.follower.update();*/
 
         if (gamepad1.bWasPressed()) {
             drive.fieldCentric = !drive.fieldCentric;
