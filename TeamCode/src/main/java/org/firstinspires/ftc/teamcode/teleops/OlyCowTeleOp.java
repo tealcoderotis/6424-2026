@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.util.DriveFunctions;
-import org.firstinspires.ftc.teamcode.util.LimelightFunctions;
+//import org.firstinspires.ftc.teamcode.util.LimelightFunctions;
 import org.firstinspires.ftc.teamcode.util.ManipulateFunctions;
 import org.firstinspires.ftc.teamcode.util.globals.Alliance;
 import org.firstinspires.ftc.teamcode.util.globals.Globals;
@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.util.globals.Globals;
 public class OlyCowTeleOp extends OpMode {
     DriveFunctions drive = new DriveFunctions();
     ManipulateFunctions manip = new ManipulateFunctions();
-    LimelightFunctions LL = new LimelightFunctions();
-    double targetRPM = 800;
+    //LimelightFunctions LL = new LimelightFunctions();
+    double targetRPM = 440;
 
     @Override
     public void init() {
