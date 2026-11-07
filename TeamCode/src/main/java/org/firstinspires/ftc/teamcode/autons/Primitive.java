@@ -22,7 +22,7 @@ public class Primitive extends LinearOpMode {
     private CRServo rightIntake = null;
     private int state = 1;
     private long startTime;
-    private double SHOOTER_VELOCITY = 560;
+    private double SHOOTER_VELOCITY = 382.666666667;
     @Override
     public void runOpMode() throws InterruptedException {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
