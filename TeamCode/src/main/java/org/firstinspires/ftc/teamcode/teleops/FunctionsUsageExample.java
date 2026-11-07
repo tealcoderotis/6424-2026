@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.ManipulateFunctions;
 public class FunctionsUsageExample extends OpMode {
     DriveFunctions drive = new DriveFunctions();
     ManipulateFunctions manip = new ManipulateFunctions();
-    double targetRPM = 1200;
+    double targetRPM = 820;
 
     @Override
     public void init() {
