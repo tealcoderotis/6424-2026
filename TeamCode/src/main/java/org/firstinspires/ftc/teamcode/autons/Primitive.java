@@ -66,22 +66,28 @@ public class Primitive extends LinearOpMode {
                             rightFrontDrive.setPower(0);
                             leftBackDrive.setPower(0);
                             rightBackDrive.setPower(0);
-                            intakeMotor.setPower(1);
                             shooterMotor.setVelocity(SHOOTER_VELOCITY);
-                            leftIntake.setPower(1);
-                            rightIntake.setPower(1);
                             startTime = System.currentTimeMillis();
                             state = 3;
                         }
                         break;
                     case 3:
+                        if (System.currentTimeMillis() >= startTime + 3000) {
+                            intakeMotor.setPower(1);
+                            leftIntake.setPower(1);
+                            rightIntake.setPower(1);
+                            startTime = System.currentTimeMillis();
+                            state = 4;
+                        }
+                        break;
+                    case 4:
                         if (System.currentTimeMillis() >= startTime + 10000) {
                             intakeMotor.setPower(0);
-                            shooterMotor.setVelocity(SHOOTER_VELOCITY);
+                            shooterMotor.setVelocity(0);
                             leftIntake.setPower(0);
                             rightIntake.setPower(0);
                             startTime = System.currentTimeMillis();
-                            state = 4;
+                            state = 5;
                         }
                         break;
                 }
