@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.ManipulateFunctions;
 public class FunctionsUsageExample extends OpMode {
     DriveFunctions drive = new DriveFunctions();
     ManipulateFunctions manip = new ManipulateFunctions();
-    double targetRPM = 800;
+    double targetRPM = 1200;
 
     @Override
     public void init() {
@@ -45,8 +45,8 @@ public class FunctionsUsageExample extends OpMode {
 
         drive.Drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
-        manip.intake(gamepad1.left_bumper);
-        manip.shoot(gamepad1.right_bumper, targetRPM, telemetry);
+        manip.intake(gamepad1.left_bumper, (gamepad1.left_trigger > 0));
+        manip.shoot(gamepad1.right_bumper, (gamepad1.right_trigger > 0), targetRPM, telemetry);
 
         if (gamepad1.dpadDownWasPressed()) {
             targetRPM -= 20;

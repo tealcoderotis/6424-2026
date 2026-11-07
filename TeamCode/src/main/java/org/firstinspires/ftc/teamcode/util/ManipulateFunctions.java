@@ -30,21 +30,33 @@ public class ManipulateFunctions {
         rightIntake.setPower(0);
         leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-    public void intake(boolean doIntake) {
+    public void intake(boolean doIntake, boolean reverse) {
         double intakePower = 0;
         if (doIntake) {
-            intakePower = 1;
+            intakePower++;
+        }
+        if (reverse) {
+            intakePower--;
         }
         intakeMotor.setPower(intakePower);
         leftIntake.setPower(intakePower);
         rightIntake.setPower(intakePower);
     }
-    public void shoot(boolean doShoot, double targetRPM, org.firstinspires.ftc.robotcore.external.Telemetry telemetry) {
-        if (doShoot) {
+    public void shoot(boolean doRev, boolean doShoot, double targetRPM, org.firstinspires.ftc.robotcore.external.Telemetry telemetry) {
+        if (doRev) {
             shooterMotor.setVelocity(targetRPM * RPMtoVelocity);
             double trueRPM = shooterMotor.getVelocity()/RPMtoVelocity;
             telemetry.addData("True RPM: ", trueRPM);
             telemetry.addData("Goal RPM: ", targetRPM);
+            if (doShoot) {
+                intakeMotor.setPower(1);
+                leftIntake.setPower(1);
+                rightIntake.setPower(1);
+            } else {
+                intakeMotor.setPower(0);
+                leftIntake.setPower(0);
+                rightIntake.setPower(0);
+            }
         } else {
             shooterMotor.setVelocity(0);
         }
