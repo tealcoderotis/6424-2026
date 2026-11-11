@@ -21,7 +21,7 @@ public class AutonShooterIntake {
     private final String SHOOTER_HARDWARE_MAP = "shooter";
     private final String ROLLER_LEFT_HARDWARE_MAP = "leftIntake";
     private final String ROLLER_RIGHT_HARDWARE_MAP = "rightIntake";
-    private final double SHOOTER_SHOOT_VELOCITY = 800;
+    private final double SHOOTER_SHOOT_VELOCITY = 382.666666667;
     private final double INDEXER_SHOOT_POWER = 1;
     private final double INDEXER_INTAKE_POWER = 1;
     private final double ROLLER_LEFT_POWER = 1;
