@@ -20,11 +20,11 @@ public class Park extends LinearOpMode {
         while (opModeInInit()) {
             if (gamepad1.bWasPressed()) {
                 alliance = Alliance.RED;
-                Globals.follower.setPose(Paths.parkRed().get(0));
+                Globals.follower.setPose(ParkPaths.parkRed().get(0));
             }
             if (gamepad1.xWasPressed()) {
                 alliance = Alliance.BLUE;
-                Globals.follower.setPose(Paths.parkBlue().get(0));
+                Globals.follower.setPose(ParkPaths.parkBlue().get(0));
             }
             telemetry.addData("Telemetry:", alliance.name());
             telemetry.update();
@@ -32,10 +32,10 @@ public class Park extends LinearOpMode {
         if (opModeIsActive()) {
             if (alliance != Alliance.UNKNOWN) {
                 if (alliance == Alliance.RED) {
-                    Scheduler.schedule(PedroCommands.follow(Globals.follower, Paths.parkRed()));
+                    Scheduler.schedule(PedroCommands.follow(Globals.follower, ParkPaths.parkRed()));
                 }
                 else {
-                    Scheduler.schedule(PedroCommands.follow(Globals.follower, Paths.parkBlue()));
+                    Scheduler.schedule(PedroCommands.follow(Globals.follower, ParkPaths.parkBlue()));
                 }
                 while (opModeIsActive()) {
                     Globals.follower.update();

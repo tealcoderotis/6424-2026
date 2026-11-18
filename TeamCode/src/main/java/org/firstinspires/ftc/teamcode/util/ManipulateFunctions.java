@@ -33,13 +33,13 @@ public class ManipulateFunctions {
     public void intake(boolean doIntake, boolean reverse) {
         double intakePower = 0;
         if (doIntake) {
-            intakePower = 0.7;
+            intakePower = 1;
         }
         if (reverse) {
             if (doIntake) {
                 intakePower = 0;
             } else {
-                intakePower = -0.3;
+                intakePower = -1;
             }
         }
         intakeMotor.setPower(intakePower);
