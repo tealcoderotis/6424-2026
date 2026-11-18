@@ -7,28 +7,25 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class ManipulateFunctions {
     private DcMotorEx shooterMotor = null;
     private DcMotor intakeMotor = null;
-    private CRServo leftIntake = null;
-    private CRServo rightIntake = null;
+    private Servo gate = null;
     private final double PulsesPerRotation = 28.0; // From 6000 RPM yellow jacket motor datasheet
     public final double RPMtoVelocity = PulsesPerRotation/60.0;
     public void manipulateInit(com.qualcomm.robotcore.hardware.HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotor.class, "intake");
         shooterMotor = hardwareMap.get(DcMotorEx.class, "shooter");
-        leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
-        rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
+        gate = hardwareMap.get(Servo.class, "gate");
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
 
         intakeMotor.setZeroPowerBehavior(BRAKE);
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
 
-        leftIntake.setPower(0);
-        rightIntake.setPower(0);
-        leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
+        gate.setPosition(0);
     }
     public void intake(boolean doIntake, boolean reverse) {
         double intakePower = 0;
@@ -43,8 +40,6 @@ public class ManipulateFunctions {
             }
         }
         intakeMotor.setPower(intakePower);
-        leftIntake.setPower(intakePower);
-        rightIntake.setPower(intakePower);
     }
     public void shoot(boolean doRev, boolean doShoot, double targetRPM, org.firstinspires.ftc.robotcore.external.Telemetry telemetry) {
         if (doRev) {
@@ -54,15 +49,14 @@ public class ManipulateFunctions {
             telemetry.addData("Goal RPM: ", targetRPM);
             if (doShoot) {
                 intakeMotor.setPower(1);
-                leftIntake.setPower(1);
-                rightIntake.setPower(1);
+                gate.setPosition(1);
             } else {
                 intakeMotor.setPower(0);
-                leftIntake.setPower(0);
-                rightIntake.setPower(0);
+                gate.setPosition(0);
             }
         } else {
             shooterMotor.setVelocity(0);
+            gate.setPosition(0);
         }
     }
 }
