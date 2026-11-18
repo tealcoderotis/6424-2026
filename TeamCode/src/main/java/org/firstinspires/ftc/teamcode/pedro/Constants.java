@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedro;
 
+import com.pedropathing.algorithm.Foresight;
+import com.pedropathing.algorithm.ForesightConfig;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.revhub.drivetrains.Mecanum;
 import com.pedropathing.revhub.drivetrains.MecanumConfig;
@@ -60,11 +62,21 @@ public class Constants {
         )));
     });
 
+    public static ForesightConfig foresightConfig = new ForesightConfig(
+            c -> {
+                c.headingDriveRatio.set(0.5);
+                c.brakeAtEnd.set(true);
+                c.translationalDeviationTolerance.set(2.5);
+                c.headingDeviationTolerance.set(Math.toRadians(11.25));
+                c.cosineScale.set(false);
+            }
+    );
+
     public static Follower create(HardwareMap h) {
         return new Follower(
                 new TwoWheelLocalizer(h, localizerConfig),
                 new Mecanum(h, driveConfig),
-                null
+                new Foresight(foresightConfig)
         );
     }
 }
