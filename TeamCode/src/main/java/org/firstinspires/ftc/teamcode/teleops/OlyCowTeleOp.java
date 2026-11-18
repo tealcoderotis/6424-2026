@@ -45,13 +45,13 @@ public class OlyCowTeleOp extends OpMode {
         if (gamepad1.aWasPressed()) {
             if (Globals.alliance == Alliance.RED) {
                 Globals.alliance = Alliance.BLUE;
-                Globals.invertPose();
+                //Globals.invertPose();
             } else if (Globals.alliance == Alliance.BLUE){
                 Globals.alliance = Alliance.RED;
-                Globals.invertPose();
+                //Globals.invertPose();
             } else {
                 Globals.alliance = Alliance.RED;
-                Globals.setPose(Globals.initPoseRedShooting);
+                //Globals.setPose(Globals.initPoseRedShooting);
             }
         }
         telemetry.addData("alliance", Globals.alliance.name());
