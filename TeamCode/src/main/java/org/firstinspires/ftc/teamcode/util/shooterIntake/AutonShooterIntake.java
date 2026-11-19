@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
@@ -19,17 +20,21 @@ import java.util.function.Consumer;
 public class AutonShooterIntake {
     private final String INTAKE_HARDWARE_MAP = "intake";
     private final String SHOOTER_HARDWARE_MAP = "shooter";
+    private final String GATE_HARDWARE_MAP = "gate";
     //private final String ROLLER_LEFT_HARDWARE_MAP = "leftIntake";
     //private final String ROLLER_RIGHT_HARDWARE_MAP = "rightIntake";
-    private final double SHOOTER_SHOOT_VELOCITY = 382.666666667;
+    private final double SHOOTER_SHOOT_VELOCITY = 1260;
     private final double INDEXER_SHOOT_POWER = 1;
     private final double INDEXER_INTAKE_POWER = 1;
     //private final double ROLLER_LEFT_POWER = 1;
     //private final double ROLLER_RIGHT_POWER = 1;
     private final double VELOCITY_TOLERANCE = 250;
+    private final double GATE_CLOSED_POSITION = 0;
+    private final double GATE_OPEN_POSITION = 1;
     private boolean isPrepared = false;
     private DcMotor intakeMotor;
     private DcMotorEx shooterMotor;
+    private Servo gate;
     //private CRServo leftRoller;
     //private CRServo rightRoller;
     private int shootingTime = 0;
@@ -42,9 +47,11 @@ public class AutonShooterIntake {
         rightRoller = hardwareMap.get(CRServo.class, ROLLER_RIGHT_HARDWARE_MAP);*/
 
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        gate.setPosition(GATE_CLOSED_POSITION);
 
         /*leftRoller.setPower(0);
         rightRoller.setPower(0);
@@ -117,6 +124,7 @@ public class AutonShooterIntake {
             shootingTime = tempShootingTime;
             startShootingTime = System.currentTimeMillis();
             intakeMotor.setPower(INDEXER_SHOOT_POWER);
+            gate.setPosition(GATE_OPEN_POSITION);
         }
     }
 
@@ -131,6 +139,7 @@ public class AutonShooterIntake {
             isPrepared = false;
             shooterMotor.setVelocity(0);
             intakeMotor.setPower(0);
+            gate.setPosition(GATE_CLOSED_POSITION);
         }
     }
 
