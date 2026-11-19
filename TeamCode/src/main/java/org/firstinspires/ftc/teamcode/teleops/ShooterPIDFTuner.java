@@ -71,7 +71,7 @@ public class ShooterPIDFTuner extends OpMode {
             if (shooterMotor.getVelocity()/RPMtoVelocity > maxRPM) {
                 maxRPM = shooterMotor.getVelocity()/RPMtoVelocity;
             }
-            if (shooterMotor.getVelocity()/RPMtoVelocity > maxRPM * 0.95) {
+            if (shooterMotor.getVelocity()/RPMtoVelocity > RPM * 0.95) {
                 runtimeStopped = true;
             }
         }
