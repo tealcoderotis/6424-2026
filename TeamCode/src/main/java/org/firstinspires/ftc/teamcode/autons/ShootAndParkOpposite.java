@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.util.globals.Alliance;
 import org.firstinspires.ftc.teamcode.util.globals.Globals;
 import org.firstinspires.ftc.teamcode.util.shooterIntake.AutonShooterIntake;
 
-@Autonomous(name="Soot and Park (downward hive)")
+@Autonomous(name="Shoot and Park (downward hive)")
 public class ShootAndParkOpposite extends LinearOpMode {
     protected class Pathing {
         private final PoseFactory poseFactoryRed = PoseFactory.degrees();

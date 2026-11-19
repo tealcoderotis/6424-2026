@@ -23,7 +23,7 @@ public class AutonShooterIntake {
     private final String GATE_HARDWARE_MAP = "gate";
     //private final String ROLLER_LEFT_HARDWARE_MAP = "leftIntake";
     //private final String ROLLER_RIGHT_HARDWARE_MAP = "rightIntake";
-    private final double SHOOTER_SHOOT_VELOCITY = 382.666666667;
+    private final double SHOOTER_SHOOT_VELOCITY = 1260;
     private final double INDEXER_SHOOT_POWER = 1;
     private final double INDEXER_INTAKE_POWER = 1;
     //private final double ROLLER_LEFT_POWER = 1;
@@ -47,10 +47,11 @@ public class AutonShooterIntake {
         rightRoller = hardwareMap.get(CRServo.class, ROLLER_RIGHT_HARDWARE_MAP);*/
 
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        gate.setPosition(0);
+        gate.setPosition(GATE_CLOSED_POSITION);
 
         /*leftRoller.setPower(0);
         rightRoller.setPower(0);
@@ -123,7 +124,7 @@ public class AutonShooterIntake {
             shootingTime = tempShootingTime;
             startShootingTime = System.currentTimeMillis();
             intakeMotor.setPower(INDEXER_SHOOT_POWER);
-            gate.setPosition(1);
+            gate.setPosition(GATE_OPEN_POSITION);
         }
     }
 
@@ -138,7 +139,7 @@ public class AutonShooterIntake {
             isPrepared = false;
             shooterMotor.setVelocity(0);
             intakeMotor.setPower(0);
-            gate.setPosition(0);
+            gate.setPosition(GATE_CLOSED_POSITION);
         }
     }
 
