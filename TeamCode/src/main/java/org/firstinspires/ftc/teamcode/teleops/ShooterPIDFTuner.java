@@ -39,12 +39,15 @@ public class ShooterPIDFTuner extends OpMode {
     }
 
     public void loop() {
-
+        telemetry.addLine("b rotates step size");
+        telemetry.addLine("a to change which coefficient you are changing");
+        telemetry.addLine("dpad up/down to step up/down the coefficient");
+        telemetry.addLine("y to spin up flywheel");
         if (gamepad1.bWasPressed()) {
             stepIndex = (stepIndex + 1) % stepSizes.length;
         }
 
-        if (gamepad1.yWasPressed()) {
+        if (gamepad1.aWasPressed()) {
             coeffIndex = (coeffIndex + 1) % coeffs.length;
         }
 
