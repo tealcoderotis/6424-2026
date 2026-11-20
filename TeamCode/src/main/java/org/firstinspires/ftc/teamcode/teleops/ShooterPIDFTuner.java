@@ -15,7 +15,7 @@ public class ShooterPIDFTuner extends OpMode {
     private final double PulsesPerRotation = 28.0; // From 6000 RPM yellow jacket motor datasheet
     public final double RPMtoVelocity = PulsesPerRotation/60.0;
 
-    private final double RPM = 3000;
+    private final double RPM = 3200;
     double maxRPM = 0;
     private final ElapsedTime runtime = new ElapsedTime();
     private boolean runtimeStopped = true;

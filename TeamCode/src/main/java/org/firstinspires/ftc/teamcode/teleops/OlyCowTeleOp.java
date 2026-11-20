@@ -14,7 +14,7 @@ public class OlyCowTeleOp extends OpMode {
     DriveFunctions drive = new DriveFunctions();
     ManipulateFunctions manip = new ManipulateFunctions();
     //LimelightFunctions LL = new LimelightFunctions();
-    double targetRPM = 6000;
+    double targetRPM = 5000;
 
     @Override
     public void init() {

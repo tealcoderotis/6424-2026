@@ -48,7 +48,7 @@ public class ManipulateFunctions {
             telemetry.addData("True RPM: ", trueRPM);
             telemetry.addData("Goal RPM: ", targetRPM);
             if (doShoot) {
-                intakeMotor.setPower(1);
+                intakeMotor.setPower(-1);
                 gate.setPosition(1);
             } else {
                 intakeMotor.setPower(0);
