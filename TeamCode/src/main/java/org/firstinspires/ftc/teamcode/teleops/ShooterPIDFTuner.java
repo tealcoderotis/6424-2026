@@ -74,6 +74,8 @@ public class ShooterPIDFTuner extends OpMode {
             if (shooterMotor.getVelocity()/RPMtoVelocity > RPM * 0.95) {
                 runtimeStopped = true;
             }
+        } else {
+            shooterMotor.setVelocity(0);
         }
 
         if (gamepad1.yWasReleased()) {
@@ -81,7 +83,6 @@ public class ShooterPIDFTuner extends OpMode {
         }
 
         if (gamepad1.yWasPressed()) {
-            maxRPM = shooterMotor.getVelocity()/RPMtoVelocity;
             runtime.reset();
             runtimeStopped = false;
         }
