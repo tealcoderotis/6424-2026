@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.pedro.Constants;
-import org.firstinspires.ftc.teamcode.util.WaitCommand;
+import org.firstinspires.ftc.teamcode.util.UtilCommands;
 import org.firstinspires.ftc.teamcode.util.globals.Alliance;
 import org.firstinspires.ftc.teamcode.util.globals.Globals;
 import org.firstinspires.ftc.teamcode.util.shooterIntake.AutonShooterIntake;
@@ -73,13 +73,13 @@ public class ShootAndParkOpposite extends LinearOpMode {
             if (alliance != Alliance.UNKNOWN) {
                 Command routine;
                 if (alliance == Alliance.RED) {
-                    routine = Groups.sequential(new WaitCommand().begin(15000));
+                    routine = Groups.sequential(new UtilCommands().waitDuration(15000));
                     routine.then(Groups.parallel(PedroCommands.follow(Globals.follower, paths.shootRed()), shooterIntake.prepareShooting()));
                     routine.then(shooterIntake.shoot(3000));
                     routine.then(PedroCommands.follow(Globals.follower, paths.parkRed()));
                 }
                 else {
-                    routine = Groups.sequential(new WaitCommand().begin(15000));
+                    routine = Groups.sequential(new UtilCommands().waitDuration(15000));
                     routine.then(Groups.parallel(PedroCommands.follow(Globals.follower, paths.shootBlue()), shooterIntake.prepareShooting()));
                     routine.then(shooterIntake.shoot(3000));
                     routine.then(PedroCommands.follow(Globals.follower, paths.parkBlue()));

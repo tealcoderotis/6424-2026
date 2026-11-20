@@ -23,7 +23,7 @@ public class AutonShooterIntake {
     private final String GATE_HARDWARE_MAP = "gate";
     //private final String ROLLER_LEFT_HARDWARE_MAP = "leftIntake";
     //private final String ROLLER_RIGHT_HARDWARE_MAP = "rightIntake";
-    private final double SHOOTER_SHOOT_VELOCITY = 1260;
+    private final double SHOOTER_SHOOT_VELOCITY = 1400;
     private final double INDEXER_SHOOT_POWER = 1;
     private final double INDEXER_INTAKE_POWER = 1;
     //private final double ROLLER_LEFT_POWER = 1;
@@ -43,6 +43,7 @@ public class AutonShooterIntake {
     public AutonShooterIntake(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotor.class, INTAKE_HARDWARE_MAP);
         shooterMotor = hardwareMap.get(DcMotorEx.class, SHOOTER_HARDWARE_MAP);
+        gate = hardwareMap.get(Servo.class, GATE_HARDWARE_MAP);
         /*leftRoller = hardwareMap.get(CRServo.class, ROLLER_LEFT_HARDWARE_MAP);
         rightRoller = hardwareMap.get(CRServo.class, ROLLER_RIGHT_HARDWARE_MAP);*/
 

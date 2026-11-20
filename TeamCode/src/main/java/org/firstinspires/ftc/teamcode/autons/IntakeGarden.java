@@ -49,7 +49,7 @@ public class IntakeGarden extends LinearOpMode {
         }
 
         public Path gardenIntakeRed() {
-            return Paths.line(gardenRed, gardenIntakeRed).constant(gardenIntakeRed);
+            return Paths.line(gardenRed, gardenIntakeRed).constant(gardenIntakeRed).with(Constants.foresightConfig.maxPathSpeed.at(0.25));
         }
 
         public Path shootReturnRed() {
@@ -68,7 +68,7 @@ public class IntakeGarden extends LinearOpMode {
         }
 
         public Path gardenIntakeBlue() {
-            return Paths.line(gardenBlue, gardenIntakeBlue).constant(gardenIntakeBlue);
+            return Paths.line(gardenBlue, gardenIntakeBlue).constant(gardenIntakeBlue).with(Constants.foresightConfig.maxPathSpeed.at(0.25));
         }
 
         public Path shootReturnBlue() {

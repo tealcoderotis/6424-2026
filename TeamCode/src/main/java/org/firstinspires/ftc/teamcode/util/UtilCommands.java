@@ -6,13 +6,15 @@ import com.pedropathing.ivy.behaviors.ConflictBehavior;
 import com.pedropathing.ivy.behaviors.EndCondition;
 import com.pedropathing.ivy.behaviors.InterruptedBehavior;
 
-public class WaitCommand {
+import org.firstinspires.ftc.teamcode.util.globals.Globals;
+
+public class UtilCommands {
     private long waitTime;
     private long startTime;
-    public WaitCommand() {
+    public UtilCommands() {
 
     }
-    public Command begin(long time) {
+    public Command waitDuration(long time) {
         Command command = Command.build()
                 .setStart(() -> {
                     startTime = System.currentTimeMillis();
