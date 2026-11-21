@@ -32,6 +32,7 @@ public class ManipulateFunctions {
         double intakePower = 0;
         if (doIntake) {
             intakePower = 1;
+            shooterMotor.setPower(-1);
         }
         if (reverse) {
             if (doIntake) {
@@ -50,7 +51,7 @@ public class ManipulateFunctions {
             telemetry.addData("True RPM: ", trueRPM);
             telemetry.addData("Goal RPM: ", targetRPM);
             if (doShoot) {
-                intakeMotor.setPower(0.33);
+                intakeMotor.setPower(0.65);
                 gate.setPosition(1);
             } else {
                 intakeMotor.setPower(0);
