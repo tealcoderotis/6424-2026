@@ -43,15 +43,15 @@ public class Constants {
     });*/
 
     public static TwoWheelConfig localizerConfig = new TwoWheelConfig(c -> {
-        c.xPodName.set("leftFrontDrive");
-        c.yPodName.set("leftBackDrive");
+        c.yPodName.set("leftFrontDrive");
+        c.xPodName.set("leftBackDrive");
         c.imuName.set("imu");
         c.xPodOffset.set(18.242578986711862);
         c.yPodOffset.set(-32.66490311685745);
         c.forwardTicksToInches.set(0.003047003349312557);
         c.strafeTicksToInches.set(0.028322523626481123);
-        c.xPodDirection.set(Encoder.FORWARD);
-        c.yPodDirection.set(Encoder.FORWARD);
+        c.xPodDirection.set(Encoder.REVERSE);
+        c.yPodDirection.set(Encoder.REVERSE);
         c.imu.set(new RevHubIMU(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT

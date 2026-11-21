@@ -78,7 +78,7 @@ public class Primitive extends LinearOpMode {
                         break;
                     case 3:
                         if (timer.milliseconds() >= 3000) {
-                            intakeMotor.setPower(1);
+                            intakeMotor.setPower(0.8);
                             gate.setPosition(0.75);
                             /*leftIntake.setPower(1);
                             rightIntake.setPower(1);*/
