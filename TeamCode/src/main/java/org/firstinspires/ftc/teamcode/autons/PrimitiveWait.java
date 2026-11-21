@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.autons;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
+import com.pedropathing.utils.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name="Move forward & shoot after 15 seconds")
 public class PrimitiveWait extends LinearOpMode {
@@ -18,10 +20,11 @@ public class PrimitiveWait extends LinearOpMode {
     private DcMotor rightBackDrive;
     private DcMotorEx shooterMotor = null;
     private DcMotor intakeMotor = null;
+    private Servo gate = null;
     /*private CRServo leftIntake = null;
     private CRServo rightIntake = null;*/
     private int state = 0;
-    private long startTime;
+    private Timer timer = new Timer();
     private double SHOOTER_VELOCITY = 2800;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,6 +42,8 @@ public class PrimitiveWait extends LinearOpMode {
         rightBackDrive.setZeroPowerBehavior(BRAKE);
         intakeMotor = hardwareMap.get(DcMotor.class, "intake");
         shooterMotor = hardwareMap.get(DcMotorEx.class, "shooter");
+        gate = hardwareMap.get(Servo.class, "gate");
+        gate.setPosition(0);
         /*leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
         rightIntake = hardwareMap.get(CRServo.class, "rightIntake");*/
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -53,50 +58,54 @@ public class PrimitiveWait extends LinearOpMode {
             while (opModeIsActive()) {
                 switch (state) {
                     case 0:
-                        startTime = System.currentTimeMillis();
+                        timer.reset();
                         state = 1;
                         break;
                     case 1:
-                        if (System.currentTimeMillis() >= startTime + 15000) {
+                        if (timer.milliseconds() >= 15000) {
                             leftFrontDrive.setPower(0.5);
                             rightFrontDrive.setPower(0.5);
                             leftBackDrive.setPower(0.5);
                             rightBackDrive.setPower(0.5);
-                            startTime = System.currentTimeMillis();
+                            timer.reset();
                             state = 2;
                         }
                         break;
                     case 2:
-                        if (System.currentTimeMillis() >= startTime + 2000) {
+                        if (timer.milliseconds() >= 500) {
                             leftFrontDrive.setPower(0);
                             rightFrontDrive.setPower(0);
                             leftBackDrive.setPower(0);
                             rightBackDrive.setPower(0);
                             shooterMotor.setVelocity(SHOOTER_VELOCITY);
-                            startTime = System.currentTimeMillis();
+                            timer.reset();
                             state = 3;
                         }
                         break;
                     case 3:
-                        if (System.currentTimeMillis() >= startTime + 3000) {
+                        if (timer.milliseconds() >= 3000) {
                             intakeMotor.setPower(1);
+                            gate.setPosition(1);
                             /*leftIntake.setPower(1);
                             rightIntake.setPower(1);*/
-                            startTime = System.currentTimeMillis();
+                            timer.reset();
                             state = 4;
                         }
                         break;
                     case 4:
-                        if (System.currentTimeMillis() >= startTime + 10000) {
+                        if (timer.milliseconds() >= 10000) {
                             intakeMotor.setPower(0);
                             shooterMotor.setVelocity(0);
+                            gate.setPosition(0);
                             /*leftIntake.setPower(0);
                             rightIntake.setPower(0);*/
-                            startTime = System.currentTimeMillis();
+                            timer.reset();
                             state = 5;
                         }
                         break;
                 }
+                telemetry.addData("State", state);
+                telemetry.addData("Time", timer.milliseconds());
             }
         }
     }
