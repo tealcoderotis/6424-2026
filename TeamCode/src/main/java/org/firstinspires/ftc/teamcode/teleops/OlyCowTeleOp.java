@@ -70,6 +70,7 @@ public class OlyCowTeleOp extends OpMode {
         LL.alternateTracking();*/
         manip.intake((gamepad1.left_trigger > 0), gamepad1.left_bumper);
         manip.shoot(gamepad1.right_bumper, (gamepad1.right_trigger > 0), targetRPM, telemetry);
+        manip.setGate(gamepad1.y);
 
         if (gamepad1.dpadDownWasPressed()) {
             targetRPM -= 20;

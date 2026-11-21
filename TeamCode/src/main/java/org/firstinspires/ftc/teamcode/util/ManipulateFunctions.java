@@ -26,7 +26,7 @@ public class ManipulateFunctions {
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
 
-        gate.setPosition(0);
+        gate.setPosition(0.5);
     }
     public void intake(boolean doIntake, boolean reverse) {
         double intakePower = 0;
@@ -55,10 +55,14 @@ public class ManipulateFunctions {
                 gate.setPosition(0.75);
             } else {
                 intakeMotor.setPower(0);
-                gate.setPosition(0);
+                gate.setPosition(0.5);
             }
         } else {
             shooterMotor.setVelocity(0);
+        }
+    }
+    public void setGate(boolean yPressed) {
+        if (yPressed) {
             gate.setPosition(0);
         }
     }
