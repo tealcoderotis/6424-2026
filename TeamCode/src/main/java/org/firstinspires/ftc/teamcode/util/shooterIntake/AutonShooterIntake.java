@@ -23,7 +23,7 @@ public class AutonShooterIntake {
     private final String GATE_HARDWARE_MAP = "gate";
     //private final String ROLLER_LEFT_HARDWARE_MAP = "leftIntake";
     //private final String ROLLER_RIGHT_HARDWARE_MAP = "rightIntake";
-    private final double SHOOTER_SHOOT_VELOCITY = 1400;
+    private final double SHOOTER_SHOOT_VELOCITY = 2800;
     private final double INDEXER_SHOOT_POWER = 1;
     private final double INDEXER_INTAKE_POWER = 1;
     //private final double ROLLER_LEFT_POWER = 1;
@@ -31,6 +31,7 @@ public class AutonShooterIntake {
     private final double VELOCITY_TOLERANCE = 250;
     private final double GATE_CLOSED_POSITION = 0;
     private final double GATE_OPEN_POSITION = 1;
+    private final long PREPARE_TIME = 3000;
     private boolean isPrepared = false;
     private DcMotor intakeMotor;
     private DcMotorEx shooterMotor;
@@ -39,6 +40,7 @@ public class AutonShooterIntake {
     //private CRServo rightRoller;
     private int shootingTime = 0;
     private long startShootingTime;
+    private long startPrepTime;
 
     public AutonShooterIntake(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotor.class, INTAKE_HARDWARE_MAP);
@@ -76,12 +78,13 @@ public class AutonShooterIntake {
     private class PrepareShooting implements Runnable {
         public void run() {
             shooterMotor.setVelocity(SHOOTER_SHOOT_VELOCITY);
+            startPrepTime = System.currentTimeMillis();
         }
     }
 
     private class DonePrepareShooting implements BooleanSupplier {
         public boolean getAsBoolean() {
-            return Math.abs(shooterMotor.getVelocity() - SHOOTER_SHOOT_VELOCITY) <= VELOCITY_TOLERANCE;
+            return System.currentTimeMillis() >= startPrepTime + PREPARE_TIME;
         }
     }
 

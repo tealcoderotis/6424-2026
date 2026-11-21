@@ -19,21 +19,17 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
-    public static MecanumConfig driveConfig = new MecanumConfig(
-            c -> {
-                c.frontLeftName.set("leftFrontDrive");
-                c.backLeftName.set("leftBackDrive");
-                c.frontRightName.set("rightFrontDrive");
-                c.backRightName.set("rightBackDrive");
-
-                c.frontLeftDirection.set(DcMotorSimple.Direction.REVERSE);
-                c.backLeftDirection.set(DcMotorSimple.Direction.REVERSE);
-                c.frontRightDirection.set(DcMotorSimple.Direction.FORWARD);
-                c.backRightDirection.set(DcMotorSimple.Direction.FORWARD);
-
-                c.manualBrakeMode.set(true);
-            }
-    );
+    public static MecanumConfig driveConfig = new MecanumConfig(c -> {
+        c.frontLeftName.set("leftFrontDrive");
+        c.frontRightName.set("rightFrontDrive");
+        c.backLeftName.set("leftBackDrive");
+        c.backRightName.set("rightBackDrive");
+        c.frontLeftDirection.set(DcMotorSimple.Direction.REVERSE);
+        c.frontRightDirection.set(DcMotorSimple.Direction.FORWARD);
+        c.backLeftDirection.set(DcMotorSimple.Direction.REVERSE);
+        c.backRightDirection.set(DcMotorSimple.Direction.FORWARD);
+        c.manualBrakeMode.set(true);
+    });
 
     /*public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
         c.name.set("olyCowPinPoint");
