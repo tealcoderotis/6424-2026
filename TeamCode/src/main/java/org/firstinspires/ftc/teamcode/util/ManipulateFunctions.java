@@ -38,7 +38,7 @@ public class ManipulateFunctions {
             if (doIntake) {
                 intakePower = 0;
             } else {
-                intakePower = -1;
+                intakePower = -0.5;
                 shooterMotor.setVelocity(-1000);
             }
         }
