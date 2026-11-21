@@ -55,15 +55,16 @@ public class ManipulateFunctions {
                 gate.setPosition(0.75);
             } else {
                 intakeMotor.setPower(0);
-                gate.setPosition(0.5);
             }
         } else {
             shooterMotor.setVelocity(0);
         }
     }
-    public void setGate(boolean yPressed) {
+    public void setGate(boolean yPressed, boolean aPressed) {
         if (yPressed) {
             gate.setPosition(0);
+        } else if (aPressed) {
+            gate.setPosition(0.5);
         }
     }
 }
