@@ -23,6 +23,13 @@ public class OlyCowTeleOp extends OpMode {
         //LL.limelightInit(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
+
+        if (gamepad1.dpadDownWasPressed()) {
+            targetRPM = 5000;
+        }
+        if (gamepad1.dpadUpWasPressed()) {
+            targetRPM = 6000;
+        }
     }
 
     @Override
@@ -30,10 +37,10 @@ public class OlyCowTeleOp extends OpMode {
         telemetry.addLine("These adjustments also work when running");
         telemetry.addLine("Press up and down to change launcher RPM");
         if (gamepad1.dpadDownWasPressed()) {
-            targetRPM -= 20;
+            targetRPM = 5000;
         }
         if (gamepad1.dpadUpWasPressed()) {
-            targetRPM += 20;
+            targetRPM = 6000;
         }
         telemetry.addData("goal RPM: ", targetRPM);
         telemetry.addLine("Press B to toggle fieldCentric");
