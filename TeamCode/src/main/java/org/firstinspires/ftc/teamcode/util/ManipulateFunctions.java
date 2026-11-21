@@ -32,6 +32,7 @@ public class ManipulateFunctions {
         double intakePower = 0;
         if (doIntake) {
             intakePower = 1;
+            shooterMotor.setPower(-1);
         }
         if (reverse) {
             if (doIntake) {
