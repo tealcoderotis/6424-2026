@@ -22,6 +22,7 @@ public class ManipulateFunctions {
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
 
         intakeMotor.setZeroPowerBehavior(BRAKE);
+        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
 
@@ -37,6 +38,7 @@ public class ManipulateFunctions {
                 intakePower = 0;
             } else {
                 intakePower = -1;
+                shooterMotor.setVelocity(-1000);
             }
         }
         intakeMotor.setPower(intakePower);
@@ -48,7 +50,7 @@ public class ManipulateFunctions {
             telemetry.addData("True RPM: ", trueRPM);
             telemetry.addData("Goal RPM: ", targetRPM);
             if (doShoot) {
-                intakeMotor.setPower(-1);
+                intakeMotor.setPower(0.33);
                 gate.setPosition(1);
             } else {
                 intakeMotor.setPower(0);
