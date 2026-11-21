@@ -85,7 +85,7 @@ public class PrimitiveWait extends LinearOpMode {
                     case 3:
                         if (timer.milliseconds() >= 3000) {
                             intakeMotor.setPower(1);
-                            gate.setPosition(1);
+                            gate.setPosition(0.75);
                             /*leftIntake.setPower(1);
                             rightIntake.setPower(1);*/
                             timer.reset();

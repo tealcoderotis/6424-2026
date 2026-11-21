@@ -30,7 +30,7 @@ public class AutonShooterIntake {
     //private final double ROLLER_RIGHT_POWER = 1;
     private final double VELOCITY_TOLERANCE = 250;
     private final double GATE_CLOSED_POSITION = 0;
-    private final double GATE_OPEN_POSITION = 1;
+    private final double GATE_OPEN_POSITION = 0.75;
     private final long PREPARE_TIME = 3000;
     private boolean isPrepared = false;
     private DcMotor intakeMotor;
