@@ -18,8 +18,8 @@ public class PrimitiveWait extends LinearOpMode {
     private DcMotor rightBackDrive;
     private DcMotorEx shooterMotor = null;
     private DcMotor intakeMotor = null;
-    private CRServo leftIntake = null;
-    private CRServo rightIntake = null;
+    /*private CRServo leftIntake = null;
+    private CRServo rightIntake = null;*/
     private int state = 0;
     private long startTime;
     private double SHOOTER_VELOCITY = 2800;
@@ -39,15 +39,15 @@ public class PrimitiveWait extends LinearOpMode {
         rightBackDrive.setZeroPowerBehavior(BRAKE);
         intakeMotor = hardwareMap.get(DcMotor.class, "intake");
         shooterMotor = hardwareMap.get(DcMotorEx.class, "shooter");
-        leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
-        rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
+        /*leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
+        rightIntake = hardwareMap.get(CRServo.class, "rightIntake");*/
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
         intakeMotor.setZeroPowerBehavior(BRAKE);
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(40, 0, 0, 12.5));
-        leftIntake.setPower(0);
+        /*leftIntake.setPower(0);
         rightIntake.setPower(0);
-        leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);*/
         waitForStart();
         if (opModeIsActive()) {
             while (opModeIsActive()) {
@@ -80,8 +80,8 @@ public class PrimitiveWait extends LinearOpMode {
                     case 3:
                         if (System.currentTimeMillis() >= startTime + 3000) {
                             intakeMotor.setPower(1);
-                            leftIntake.setPower(1);
-                            rightIntake.setPower(1);
+                            /*leftIntake.setPower(1);
+                            rightIntake.setPower(1);*/
                             startTime = System.currentTimeMillis();
                             state = 4;
                         }
@@ -90,8 +90,8 @@ public class PrimitiveWait extends LinearOpMode {
                         if (System.currentTimeMillis() >= startTime + 10000) {
                             intakeMotor.setPower(0);
                             shooterMotor.setVelocity(0);
-                            leftIntake.setPower(0);
-                            rightIntake.setPower(0);
+                            /*leftIntake.setPower(0);
+                            rightIntake.setPower(0);*/
                             startTime = System.currentTimeMillis();
                             state = 5;
                         }
