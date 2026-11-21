@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.autons;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
+import com.pedropathing.utils.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -17,7 +18,7 @@ public class PrimitiveLeave extends LinearOpMode {
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
     private int state = 1;
-    private long startTime;
+    private Timer timer = new Timer();
     @Override
     public void runOpMode() throws InterruptedException {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
@@ -41,20 +42,22 @@ public class PrimitiveLeave extends LinearOpMode {
                         rightFrontDrive.setPower(0.5);
                         leftBackDrive.setPower(0.5);
                         rightBackDrive.setPower(0.5);
-                        startTime = System.currentTimeMillis();
+                        timer.reset();
                         state = 2;
                         break;
                     case 2:
-                        if (System.currentTimeMillis() >= startTime + 3000) {
+                        if (timer.milliseconds() >= 500) {
                             leftFrontDrive.setPower(0);
                             rightFrontDrive.setPower(0);
                             leftBackDrive.setPower(0);
                             rightBackDrive.setPower(0);
-                            startTime = System.currentTimeMillis();
+                            timer.reset();
                             state = 3;
                         }
                         break;
                 }
+                telemetry.addData("State", state);
+                telemetry.addData("Time", timer.milliseconds());
             }
         }
     }
