@@ -5,7 +5,7 @@ import com.pedropathing.ivy.pedro.PedroCommands;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.pedro.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.globals.Alliance;
 import org.firstinspires.ftc.teamcode.util.globals.Globals;
 
@@ -20,11 +20,11 @@ public class Park extends LinearOpMode {
         while (opModeInInit()) {
             if (gamepad1.bWasPressed()) {
                 alliance = Alliance.RED;
-                Globals.follower.setPose(ParkPaths.parkRed().get(0));
+                Globals.follower.setPose(ParkPaths.parkRed().getPoint(0));
             }
             if (gamepad1.xWasPressed()) {
                 alliance = Alliance.BLUE;
-                Globals.follower.setPose(ParkPaths.parkBlue().get(0));
+                Globals.follower.setPose(ParkPaths.parkBlue().getPoint(0));
             }
             telemetry.addData("Telemetry:", alliance.name());
             telemetry.update();

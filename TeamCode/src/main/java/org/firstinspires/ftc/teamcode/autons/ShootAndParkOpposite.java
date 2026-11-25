@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.autons;
 
-import com.pedropathing.api.Paths;
-import com.pedropathing.api.PoseFactory;
+import com.pedropathing.geometry.BezierCurve;
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.ivy.groups.Groups;
 import com.pedropathing.ivy.pedro.PedroCommands;
-import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.pedro.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.UtilCommands;
 import org.firstinspires.ftc.teamcode.util.globals.Alliance;
 import org.firstinspires.ftc.teamcode.util.globals.Globals;
@@ -20,31 +20,41 @@ import org.firstinspires.ftc.teamcode.util.shooterIntake.AutonShooterIntake;
 @Autonomous(name="Shoot and Park (downward hive)")
 public class ShootAndParkOpposite extends LinearOpMode {
     protected class Pathing {
-        private final PoseFactory poseFactoryRed = PoseFactory.degrees();
-        private final PoseFactory poseFactoryBlue = PoseFactory.degrees().rotateAround(72, 72, 180);
-        private final Pose startRed = poseFactoryRed.of(60, 135, 90);
-        private final Pose shootRed = poseFactoryRed.of(60, 111, 270);
-        private final Pose parkRed = poseFactoryRed.of(11, 118, 270);
-        private final Pose parkRedControl1 = poseFactoryRed.of(24, 132, 0);
-        private final Pose startBlue = poseFactoryBlue.of(60, 135, 90);
-        private final Pose shootBlue = poseFactoryBlue.of(60, 111, 270);
-        private final Pose parkBlue = poseFactoryBlue.of(11, 118, 270);
-        private final Pose parkBlueControl1 = poseFactoryBlue.of(24, 132, 0);
+        private final Pose startRed = new Pose(60, 135, Math.toRadians(90));
+        private final Pose shootRed = new Pose(60, 111, Math.toRadians(270));
+        private final Pose parkRed = new Pose(11, 118, Math.toRadians(270));
+        private final Pose parkRedControl1 = new Pose(24, 132);
+        private final Pose startBlue = startRed.rotate(Math.toRadians(180), true);
+        private final Pose shootBlue = shootRed.rotate(Math.toRadians(180), true);
+        private final Pose parkBlue = parkRed.rotate(Math.toRadians(180), true);
+        private final Pose parkBlueControl1 = parkRedControl1.rotate(Math.toRadians(180), true);
 
         public Path shootRed() {
-            return Paths.line(startRed, shootRed).constant(shootRed);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(startRed, shootRed))
+                    .setConstantHeadingInterpolation(shootRed.getHeading())
+                    .build().firstPath();
         }
 
         public Path parkRed() {
-            return Paths.curve(shootRed, parkRedControl1, parkRed).constant(parkRed);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierCurve(shootRed, parkRedControl1, parkRed))
+                    .setConstantHeadingInterpolation(parkRed.getHeading())
+                    .build().firstPath();
         }
 
         public Path shootBlue() {
-            return Paths.line(startBlue, shootBlue).constant(shootBlue);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(startBlue, shootBlue))
+                    .setConstantHeadingInterpolation(shootBlue.getHeading())
+                    .build().firstPath();
         }
 
         public Path parkBlue() {
-            return Paths.curve(shootBlue, parkBlueControl1, parkBlue).constant(parkBlue);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierCurve(shootBlue, parkBlueControl1, parkBlue))
+                    .setConstantHeadingInterpolation(parkBlue.getHeading())
+                    .build().firstPath();
         }
 
     }

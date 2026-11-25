@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode.autons;
 
-import com.pedropathing.api.Paths;
-import com.pedropathing.api.PoseFactory;
+import com.pedropathing.geometry.BezierCurve;
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.ivy.groups.Groups;
 import com.pedropathing.ivy.pedro.PedroCommands;
-import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.pedro.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.util.UtilCommands;
 import org.firstinspires.ftc.teamcode.util.globals.Alliance;
 import org.firstinspires.ftc.teamcode.util.globals.Globals;
 import org.firstinspires.ftc.teamcode.util.shooterIntake.AutonShooterIntake;
@@ -19,64 +20,92 @@ import org.firstinspires.ftc.teamcode.util.shooterIntake.AutonShooterIntake;
 @Autonomous(name="Intake from Garden and Park")
 public class IntakeGarden extends LinearOpMode {
     protected class Pathing {
-        private final PoseFactory poseFactoryRed = PoseFactory.degrees();
-        private final PoseFactory poseFactoryBlue = PoseFactory.degrees().rotateAround(72, 72, 180);
-        private final Pose startRed = poseFactoryRed.of(60, 9, 90);
-        private final Pose shootRed = poseFactoryRed.of(60, 33, 90);
-        private final Pose gardenRedStart = poseFactoryRed.of(60, 33, 90);
-        private final Pose gardenRed = poseFactoryRed.of(9, 12, 270);
-        private final Pose gardenIntakeRed = poseFactoryRed.of(9, 9, 270);
-        private final Pose shootReturnRedStart = poseFactoryRed.of(9, 9, 270);
-        private final Pose shootReturnRed = poseFactoryRed.of(60, 33, 90);
-        private final Pose parkRed = poseFactoryRed.of(11, 98, 90);
-        private final Pose parkRedControl1 = poseFactoryRed.of(24, 18, 0);
-        private final Pose startBlue = poseFactoryBlue.of(60, 9, 90);
-        private final Pose shootBlue = poseFactoryBlue.of(60, 33, 90);
-        private final Pose gardenBlueStart = poseFactoryBlue.of(60, 33, 90);
-        private final Pose gardenBlue = poseFactoryBlue.of(9, 12, 270);
-        private final Pose gardenIntakeBlue = poseFactoryBlue.of(9, 9, 270);
-        private final Pose shootReturnBlueStart = poseFactoryBlue.of(9, 9, 270);
-        private final Pose shootReturnBlue = poseFactoryBlue.of(60, 33, 90);
-        private final Pose parkBlue = poseFactoryBlue.of(11, 98, 90);
-        private final Pose parkBlueControl1 = poseFactoryBlue.of(24, 18, 0);
+        private final Pose startRed = new Pose(60, 9, Math.toRadians(90));
+        private final Pose shootRed = new Pose(60, 33, Math.toRadians(90));
+        private final Pose gardenRedStart = new Pose(60, 33, Math.toRadians(90));
+        private final Pose gardenRed = new Pose(9, 12, Math.toRadians(90));
+        private final Pose gardenIntakeRed = new Pose(9, 9, Math.toRadians(270));
+        private final Pose shootReturnRedStart = new Pose(9, 9, Math.toRadians(270));
+        private final Pose shootReturnRed = new Pose(60, 33, Math.toRadians(90));
+        private final Pose parkRed = new Pose(11, 98, Math.toRadians(90));
+        private final Pose parkRedControl1 = new Pose(24, 18);
+        private final Pose startBlue = startRed.rotate(Math.toRadians(180), true);
+        private final Pose shootBlue = shootRed.rotate(Math.toRadians(180), true);
+        private final Pose gardenBlueStart = gardenRedStart.rotate(Math.toRadians(180), true);
+        private final Pose gardenBlue = gardenRed.rotate(Math.toRadians(180), true);
+        private final Pose gardenIntakeBlue = gardenIntakeRed.rotate(Math.toRadians(180), true);
+        private final Pose shootReturnBlueStart = shootReturnRedStart.rotate(Math.toRadians(180), true);
+        private final Pose shootReturnBlue = shootReturnRed.rotate(Math.toRadians(180), true);
+        private final Pose parkBlue = parkRed.rotate(Math.toRadians(180), true);
+        private final Pose parkBlueControl1 = parkRedControl1.rotate(Math.toRadians(180), true);
 
         public Path shootRed() {
-            return Paths.line(startRed, shootRed).constant(shootRed);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(startRed, shootRed))
+                    .setConstantHeadingInterpolation(shootRed.getHeading())
+                    .build().firstPath();
         }
 
         public Path gardenRed() {
-            return Paths.line(gardenRedStart, gardenRed).linear(gardenRedStart, gardenRed);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(gardenRedStart, gardenRed))
+                    .setLinearHeadingInterpolation(gardenRedStart.getHeading(), gardenRed.getHeading())
+                    .build().firstPath();
         }
 
         public Path gardenIntakeRed() {
-            return Paths.line(gardenRed, gardenIntakeRed).constant(gardenIntakeRed).with(Constants.foresightConfig.maxPathSpeed.at(0.25));
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(gardenRed, gardenIntakeRed))
+                    .setConstantHeadingInterpolation(gardenIntakeRed.getHeading())
+                    .build().firstPath();
         }
 
         public Path shootReturnRed() {
-            return Paths.line(shootReturnRedStart, shootReturnRed).linear(shootReturnRedStart, shootReturnRed);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(shootReturnRedStart, shootReturnRed))
+                    .setLinearHeadingInterpolation(shootReturnRedStart.getHeading(), shootReturnRed.getHeading())
+                    .build().firstPath();
         }
 
         public Path parkRed() {
-            return Paths.curve(shootReturnRed, parkRedControl1, parkRed).constant(parkRed);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierCurve(shootReturnRed, parkRedControl1, parkRed))
+                    .setConstantHeadingInterpolation(parkRed.getHeading())
+                    .build().firstPath();
         }
         public Path shootBlue() {
-            return Paths.line(startBlue, shootBlue).constant(shootBlue);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(startBlue, shootBlue))
+                    .setConstantHeadingInterpolation(shootBlue.getHeading())
+                    .build().firstPath();
         }
 
         public Path gardenBlue() {
-            return Paths.line(gardenBlueStart, gardenBlue).linear(gardenBlueStart, gardenBlue);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(gardenBlueStart, gardenBlue))
+                    .setLinearHeadingInterpolation(gardenBlueStart.getHeading(), gardenBlue.getHeading())
+                    .build().firstPath();
         }
 
         public Path gardenIntakeBlue() {
-            return Paths.line(gardenBlue, gardenIntakeBlue).constant(gardenIntakeBlue).with(Constants.foresightConfig.maxPathSpeed.at(0.25));
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(gardenBlue, gardenIntakeBlue))
+                    .setConstantHeadingInterpolation(gardenIntakeBlue.getHeading())
+                    .build().firstPath();
         }
 
         public Path shootReturnBlue() {
-            return Paths.line(shootReturnBlueStart, shootReturnBlue).linear(shootReturnBlueStart, shootReturnBlue);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(shootReturnBlueStart, shootReturnBlue))
+                    .setLinearHeadingInterpolation(shootReturnBlueStart.getHeading(), shootReturnBlue.getHeading())
+                    .build().firstPath();
         }
 
         public Path parkBlue() {
-            return Paths.curve(shootReturnBlue, parkBlueControl1, parkBlue).constant(parkBlue);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierCurve(shootReturnBlue, parkBlueControl1, parkBlue))
+                    .setConstantHeadingInterpolation(parkBlue.getHeading())
+                    .build().firstPath();
         }
     }
     private Alliance alliance = Alliance.UNKNOWN;
@@ -107,8 +136,8 @@ public class IntakeGarden extends LinearOpMode {
                     routine = Groups.sequential(Groups.parallel(PedroCommands.follow(Globals.follower, paths.shootRed()), shooterIntake.prepareShooting()));
                     routine.then(shooterIntake.shoot(3000));
                     routine.then(PedroCommands.follow(Globals.follower, paths.gardenRed()));
-                    routine.then(Groups.deadline(PedroCommands.follow(Globals.follower, paths.gardenIntakeRed()), shooterIntake.intake()));
-                    routine = Groups.sequential(Groups.parallel(PedroCommands.follow(Globals.follower, paths.shootReturnRed()), shooterIntake.prepareShooting()));
+                    routine.then(Groups.deadline(Groups.parallel(PedroCommands.follow(Globals.follower, paths.gardenIntakeRed()), new UtilCommands().setFollowerSpeed(0.25)), shooterIntake.intake()));
+                    routine.then(Groups.parallel(PedroCommands.follow(Globals.follower, paths.shootReturnRed()), new UtilCommands().setFollowerSpeed(1), shooterIntake.prepareShooting()));
                     routine.then(shooterIntake.shoot(3000));
                     routine.then(PedroCommands.follow(Globals.follower, paths.parkRed()));
                 }
@@ -116,8 +145,8 @@ public class IntakeGarden extends LinearOpMode {
                     routine = Groups.sequential(Groups.parallel(PedroCommands.follow(Globals.follower, paths.shootBlue()), shooterIntake.prepareShooting()));
                     routine.then(shooterIntake.shoot(3000));
                     routine.then(PedroCommands.follow(Globals.follower, paths.gardenBlue()));
-                    routine.then(Groups.deadline(PedroCommands.follow(Globals.follower, paths.gardenIntakeBlue()), shooterIntake.intake()));
-                    routine = Groups.sequential(Groups.parallel(PedroCommands.follow(Globals.follower, paths.shootReturnBlue()), shooterIntake.prepareShooting()));
+                    routine.then(Groups.deadline(Groups.parallel(PedroCommands.follow(Globals.follower, paths.gardenIntakeBlue()), new UtilCommands().setFollowerSpeed(0.25)), shooterIntake.intake()));
+                    routine.then(Groups.parallel(PedroCommands.follow(Globals.follower, paths.shootReturnBlue()), new UtilCommands().setFollowerSpeed(1), shooterIntake.prepareShooting()));
                     routine.then(shooterIntake.shoot(3000));
                     routine.then(PedroCommands.follow(Globals.follower, paths.parkBlue()));
                 }

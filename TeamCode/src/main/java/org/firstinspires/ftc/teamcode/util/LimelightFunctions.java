@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.util;
 
-import com.pedropathing.math.Pose;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -53,8 +53,8 @@ public class LimelightFunctions {
         for (Iterator<knownPiece> oldPieceIterator = pieceMap.iterator(); oldPieceIterator.hasNext(); ) {
             knownPiece oldPiece = oldPieceIterator.next();
             final double VISIBILITY_DIST_INCHES = 65;
-            double distanceToPiece = Math.sqrt(Math.pow((robotPose.y() - oldPiece.piecePose.y()), 2) + Math.pow((robotPose.x() - oldPiece.piecePose.x()), 2));
-            double headingToPiece = Math.atan2(oldPiece.piecePose.y() - robotPose.y(), oldPiece.piecePose.x() - robotPose.x()) - robotPose.heading();
+            double distanceToPiece = Math.sqrt(Math.pow((robotPose.getY() - oldPiece.piecePose.getY()), 2) + Math.pow((robotPose.getX() - oldPiece.piecePose.getX()), 2));
+            double headingToPiece = Math.atan2(oldPiece.piecePose.getY() - robotPose.getY(), oldPiece.piecePose.getX() - robotPose.getX()) - robotPose.getHeading();
             headingToPiece = ((headingToPiece + Math.PI) - Math.PI) % (2 * Math.PI);
             final double EDGE_CUTOFF_DEG = 4.5;
             final double xFOV_Cutoff = (54.5 - (2 * EDGE_CUTOFF_DEG)) * Math.PI / 180.0;

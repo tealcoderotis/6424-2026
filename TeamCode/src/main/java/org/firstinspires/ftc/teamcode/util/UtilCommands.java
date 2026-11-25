@@ -30,4 +30,20 @@ public class UtilCommands {
                 .setPriority(0);
         return command;
     }
+
+    public Command setFollowerSpeed(double speed) {
+        Command command = Command.build()
+                .setStart(() -> {
+                    Globals.follower.setMaxPower(0.25);
+                })
+                .setExecute(() -> {})
+                .setDone(() -> true)
+                .setEnd((EndCondition condition) -> {})
+                .requiring(this)
+                .setInterruptedBehavior(InterruptedBehavior.END)
+                .setBlockedBehavior(BlockedBehavior.CANCEL)
+                .setConflictBehavior(ConflictBehavior.CANCEL)
+                .setPriority(0);
+        return command;
+    }
 }

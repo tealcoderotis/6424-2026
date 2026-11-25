@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.autons;
 
 import com.pedropathing.ivy.Scheduler;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.util.shooterIntake.AutonShooterIntake;
 
+@Autonomous
 public class ShootPreload extends LinearOpMode {
     AutonShooterIntake shooterIntake;
     @Override

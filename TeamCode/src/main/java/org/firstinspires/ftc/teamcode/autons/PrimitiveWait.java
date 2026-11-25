@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.autons;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
-import com.pedropathing.utils.Timer;
+import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -58,54 +58,54 @@ public class PrimitiveWait extends LinearOpMode {
             while (opModeIsActive()) {
                 switch (state) {
                     case 0:
-                        timer.reset();
+                        timer.resetTimer();
                         state = 1;
                         break;
                     case 1:
-                        if (timer.milliseconds() >= 15000) {
+                        if (timer.getElapsedTime() >= 15000) {
                             leftFrontDrive.setPower(0.5);
                             rightFrontDrive.setPower(0.5);
                             leftBackDrive.setPower(0.5);
                             rightBackDrive.setPower(0.5);
-                            timer.reset();
+                            timer.resetTimer();
                             state = 2;
                         }
                         break;
                     case 2:
-                        if (timer.milliseconds() >= 500) {
+                        if (timer.getElapsedTime() >= 500) {
                             leftFrontDrive.setPower(0);
                             rightFrontDrive.setPower(0);
                             leftBackDrive.setPower(0);
                             rightBackDrive.setPower(0);
                             shooterMotor.setVelocity(SHOOTER_VELOCITY);
-                            timer.reset();
+                            timer.resetTimer();
                             state = 3;
                         }
                         break;
                     case 3:
-                        if (timer.milliseconds() >= 3000) {
+                        if (timer.getElapsedTime() >= 3000) {
                             intakeMotor.setPower(0.8);
                             gate.setPosition(0.75);
                             /*leftIntake.setPower(1);
                             rightIntake.setPower(1);*/
-                            timer.reset();
+                            timer.resetTimer();
                             state = 4;
                         }
                         break;
                     case 4:
-                        if (timer.milliseconds() >= 10000) {
+                        if (timer.getElapsedTime() >= 10000) {
                             intakeMotor.setPower(0);
                             shooterMotor.setVelocity(0);
                             gate.setPosition(0);
                             /*leftIntake.setPower(0);
                             rightIntake.setPower(0);*/
-                            timer.reset();
+                            timer.resetTimer();
                             state = 5;
                         }
                         break;
                 }
                 telemetry.addData("State", state);
-                telemetry.addData("Time", timer.milliseconds());
+                telemetry.addData("Time", timer.getElapsedTime());
             }
         }
     }

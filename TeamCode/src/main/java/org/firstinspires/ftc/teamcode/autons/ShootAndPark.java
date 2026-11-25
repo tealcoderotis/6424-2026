@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.autons;
 
-import com.pedropathing.api.Paths;
-import com.pedropathing.api.PoseFactory;
+import com.pedropathing.geometry.BezierCurve;
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.ivy.groups.Groups;
 import com.pedropathing.ivy.pedro.PedroCommands;
-import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.pedro.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.globals.Alliance;
 import org.firstinspires.ftc.teamcode.util.globals.Globals;
 import org.firstinspires.ftc.teamcode.util.shooterIntake.AutonShooterIntake;
@@ -19,30 +19,40 @@ import org.firstinspires.ftc.teamcode.util.shooterIntake.AutonShooterIntake;
 @Autonomous(name="Shoot and Park (upward hive)")
 public class ShootAndPark extends LinearOpMode {
     protected class Pathing {
-        private final PoseFactory poseFactoryRed = PoseFactory.degrees();
-        private final PoseFactory poseFactoryBlue = PoseFactory.degrees().rotateAround(72, 72, 180);
-        private final Pose startRed = poseFactoryRed.of(60, 9, 90);
-        private final Pose point1Red = poseFactoryRed.of(60, 33, 90);
-        private final Pose path2Red = poseFactoryRed.of(11, 98, 90);
-        private final Pose path2Control1Red = poseFactoryRed.of(24, 18, 0);
-        private final Pose startBlue = poseFactoryBlue.of(60, 9, 90);
-        private final Pose point1Blue = poseFactoryBlue.of(60, 33, 90);
-        private final Pose path2Blue = poseFactoryBlue.of(11, 98, 90);
-        private final Pose path2Control1Blue = poseFactoryBlue.of(24, 18, 0);
+        private final Pose startRed = new Pose(60, 9, Math.toRadians(90));
+        private final Pose point1Red = new Pose(60, 33, Math.toRadians(90));
+        private final Pose path2Red = new Pose(11, 98, Math.toRadians(90));
+        private final Pose path2Control1Red = new Pose(24, 18);
+        private final Pose startBlue = startRed.rotate(Math.toRadians(180), true);
+        private final Pose point1Blue = point1Red.rotate(Math.toRadians(180), true);
+        private final Pose path2Blue = path2Red.rotate(Math.toRadians(180), true);
+        private final Pose path2Control1Blue = path2Control1Red.rotate(Math.toRadians(180), true);
 
         public Path path1Red() {
-            return Paths.line(startRed, point1Red).constant(point1Red);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(startRed, point1Red))
+                    .setConstantHeadingInterpolation(point1Red.getHeading())
+                    .build().firstPath();
         }
 
         public Path path2Red() {
-            return Paths.curve(point1Red, path2Control1Red, path2Red).constant(path2Red);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierCurve(point1Red,  path2Control1Red, path2Red))
+                    .setConstantHeadingInterpolation(path2Red.getHeading())
+                    .build().firstPath();
         }
         public Path path1Blue() {
-            return Paths.line(startBlue, point1Blue).constant(point1Blue);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierLine(startBlue, point1Blue))
+                    .setConstantHeadingInterpolation(point1Blue.getHeading())
+                    .build().firstPath();
         }
 
         public Path path2Blue() {
-            return Paths.curve(point1Blue, path2Control1Blue, path2Blue).constant(path2Blue);
+            return Globals.follower.pathBuilder()
+                    .addPath(new BezierCurve(point1Blue,  path2Control1Blue, path2Blue))
+                    .setConstantHeadingInterpolation(path2Blue.getHeading())
+                    .build().firstPath();
         }
     }
     private Alliance alliance = Alliance.UNKNOWN;

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.util.vision;
 
-import com.pedropathing.math.Pose;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 
 public class FindGamePiece {
@@ -24,8 +24,8 @@ public class FindGamePiece {
         double forwardDistance = Math.cos(horizontalAngleRadians) * distance;
         double horizontalDistance = Math.sin(horizontalAngleRadians) * distance;
 
-        double xPose = robotPose.x() + (horizontalDistance * Math.cos(-robotPose.heading()) - forwardDistance * Math.sin(-robotPose.heading()));
-        double yPose = robotPose.y() + (horizontalDistance * Math.sin(-robotPose.heading()) + forwardDistance * Math.cos(-robotPose.heading()));
+        double xPose = robotPose.getX() + (horizontalDistance * Math.cos(-robotPose.getHeading()) - forwardDistance * Math.sin(-robotPose.getHeading()));
+        double yPose = robotPose.getY() + (horizontalDistance * Math.sin(-robotPose.getHeading()) + forwardDistance * Math.cos(-robotPose.getHeading()));
 
         return new Pose(xPose, yPose);
     }

@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.autons;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
-import com.pedropathing.utils.Timer;
+import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -42,22 +42,22 @@ public class PrimitiveLeave extends LinearOpMode {
                         rightFrontDrive.setPower(0.5);
                         leftBackDrive.setPower(0.5);
                         rightBackDrive.setPower(0.5);
-                        timer.reset();
+                        timer.resetTimer();
                         state = 2;
                         break;
                     case 2:
-                        if (timer.milliseconds() >= 500) {
+                        if (timer.getElapsedTime() >= 500) {
                             leftFrontDrive.setPower(0);
                             rightFrontDrive.setPower(0);
                             leftBackDrive.setPower(0);
                             rightBackDrive.setPower(0);
-                            timer.reset();
+                            timer.resetTimer();
                             state = 3;
                         }
                         break;
                 }
                 telemetry.addData("State", state);
-                telemetry.addData("Time", timer.milliseconds());
+                telemetry.addData("Time", timer.getElapsedTime());
             }
         }
     }
